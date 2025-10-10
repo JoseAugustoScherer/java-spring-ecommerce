@@ -11,11 +11,11 @@ package com.jscommerceApplication.entities._enum;
 
 public enum OrderStatus {
 
-    WAITING_PAYMENT ( 1, "Waiting payment" ),
-    PAID            ( 2, "Paid" ),
-    SHIPPED         ( 3, "Shipped" ),
-    DELIVERED       ( 4, "Delivered" ),
-    CANCELLED       ( 5, "Canceled" );
+    WAITING_PAYMENT ( 0, "Waiting payment" ),
+    PAID            ( 1, "Paid" ),
+    SHIPPED         ( 2, "Shipped" ),
+    DELIVERED       ( 3, "Delivered" ),
+    CANCELLED       ( 4, "Canceled" );
 
     private int code;
     private String description;
