@@ -40,16 +40,26 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductDTO createProduct( ProductDTO productDTO ) {
+    public ProductDTO createProduct( ProductDTO dto ) {
         Product product = new Product();
-
-        product.setName( productDTO.getName() );
-        product.setDescription( productDTO.getDescription() );
-        product.setPrice( productDTO.getPrice() );
-        product.setImgUrl( productDTO.getImgUrl() );
-
+        copyDtoToProduct( dto, product );
         product = productRepository.save( product );
         return new ProductDTO( product );
+    }
+
+    @Transactional
+    public ProductDTO updateProduct( Long id, ProductDTO dto ) {
+        Product product = productRepository.getReferenceById( id );
+        copyDtoToProduct( dto, product );
+        product = productRepository.save( product );
+        return new ProductDTO( product );
+    }
+
+    private void copyDtoToProduct( ProductDTO dto, Product product ) {
+        product.setName         ( dto.getName() );
+        product.setDescription  ( dto.getDescription() );
+        product.setPrice        ( dto.getPrice() );
+        product.setImgUrl       ( dto.getImgUrl() );
     }
 
 }
