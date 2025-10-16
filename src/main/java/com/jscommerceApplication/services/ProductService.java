@@ -3,11 +3,15 @@ package com.jscommerceApplication.services;
 import com.jscommerceApplication.dto.ProductDTO;
 import com.jscommerceApplication.entities.Product;
 import com.jscommerceApplication.repositories.ProductRepository;
+import com.jscommerceApplication.services.exceptions.DatabaseException;
 import com.jscommerceApplication.services.exceptions.ResourceNotFoundException;
+import org.hibernate.boot.model.relational.Database;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -52,15 +56,26 @@ public class ProductService {
 
     @Transactional
     public ProductDTO updateProduct( Long id, ProductDTO dto ) {
-        Product product = productRepository.getReferenceById( id );
-        copyDtoToProduct( dto, product );
-        product = productRepository.save( product );
-        return new ProductDTO( product );
+        try {
+            Product product = productRepository.getReferenceById( id );
+            copyDtoToProduct( dto, product );
+            product = productRepository.save( product );
+            return new ProductDTO( product );
+        } catch ( DataIntegrityViolationException e ) {
+            throw new ResourceNotFoundException( "Product not found!" );
+        }
     }
 
-    @Transactional
+    @Transactional ( propagation = Propagation.SUPPORTS )
     public void deleteProduct( Long id ) {
-        productRepository.deleteById( id );
+        if ( !productRepository.existsById( id ) ) {
+            throw new ResourceNotFoundException( "Product not found!" );
+        }
+        try {
+            productRepository.deleteById( id );
+        } catch ( DataIntegrityViolationException e ) {
+            throw new DatabaseException( "Referential integrity failure" );
+        }
     }
 
     private void copyDtoToProduct( ProductDTO dto, Product product ) {
