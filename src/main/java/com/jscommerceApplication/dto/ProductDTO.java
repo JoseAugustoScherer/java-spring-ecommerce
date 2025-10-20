@@ -1,6 +1,9 @@
 package com.jscommerceApplication.dto;
 
 import com.jscommerceApplication.entities.Product;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 /**
  * @author José Augusto Scherer - jose.a.scherer@gmail.com
@@ -14,8 +17,16 @@ import com.jscommerceApplication.entities.Product;
 public class ProductDTO {
 
     private Long id;
+
+    @Size ( min = 3, max = 80, message = "The name must be between 3 and 80 characters!" )
+    @NotBlank ( message = "Enter the product name!" )
     private String name;
+
+    @Size ( min = 10, message = "The description must be at least 10 characters!" )
+    @NotBlank ( message = "Enter the product description!" )
     private String description;
+
+    @Positive ( message = "Only positive values!" )
     private Double price;
     private String imgUrl;
 
