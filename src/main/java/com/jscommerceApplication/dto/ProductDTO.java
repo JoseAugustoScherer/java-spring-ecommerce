@@ -18,15 +18,15 @@ public class ProductDTO {
 
     private Long id;
 
-    @Size ( min = 3, max = 80, message = "The name must be between 3 and 80 characters!" )
-    @NotBlank ( message = "Enter the product name!" )
+    @Size ( min = 3, max = 80, message = "The name must be between 3 and 80 characters" )
+    @NotBlank ( message = "Enter the product name" )
     private String name;
 
-    @Size ( min = 10, message = "The description must be at least 10 characters!" )
-    @NotBlank ( message = "Enter the product description!" )
+    @Size ( min = 10, message = "The description must be at least 10 characters" )
+    @NotBlank ( message = "Enter the product description" )
     private String description;
 
-    @Positive ( message = "Only positive values!" )
+    @Positive ( message = "Only positive values" )
     private Double price;
     private String imgUrl;
 

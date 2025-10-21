@@ -44,15 +44,15 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductDTO> createProduct( @Valid @RequestBody ProductDTO productDTO ) {
-        ProductDTO dto = service.createProduct( productDTO );
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path( "/{id}").buildAndExpand( dto.getId() ).toUri();
-        return ResponseEntity.created( uri ).body( dto );
+        productDTO = service.createProduct( productDTO );
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path( "/{id}").buildAndExpand( productDTO.getId() ).toUri();
+        return ResponseEntity.created( uri ).body( productDTO );
     }
 
     @PutMapping ( value = "/{id}")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO  ) {
-        ProductDTO dto = service.updateProduct( id, productDTO );
-        return ResponseEntity.ok( dto );
+        productDTO = service.updateProduct( id, productDTO );
+        return ResponseEntity.ok( productDTO );
     }
 
     @DeleteMapping ( value = "/{id}")
